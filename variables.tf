@@ -40,6 +40,7 @@ variable "output_path" {
 
 variable "environment" {
   description = "Environment configuration for the Lambda function"
-  type        = "map"
+  type        = map(string)
   default     = {}
 }
+
