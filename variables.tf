@@ -38,8 +38,8 @@ variable "output_path" {
   default     = "lambda.zip"
 }
 
-variable "environment" {
-  description = "Environment configuration for the Lambda function"
+variable "variables" {
+  description = "Environment variables for the Lambda function"
   type        = map(any)
   default     = {}
 }

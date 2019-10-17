@@ -47,17 +47,7 @@ resource "aws_lambda_function" "lambda" {
   runtime          = var.runtime
   timeout          = var.timeout
   memory_size      = var.memory_size
-  dynamic "environment" {
-
-    for_each = [slice([var.environment], 0, length(var.environment) == 0 ? 0 : 1)]
-    content {
-      # TF-UPGRADE-TODO: The automatic upgrade tool can't predict
-      # which keys might be set in maps assigned here, so it has
-      # produced a comprehensive set here. Consider simplifying
-      # this after confirming which keys can be set in practice.
-
-      variables = lookup(environment.value, "variables", null)
-    }
+  environment {
+    variables = var.variables
   }
 }
-
