@@ -49,3 +49,10 @@ variable "vpc_config" {
   type        = map(list(string))
   default     = {}
 }
+
+variable "tags" {
+  description = "A mapping of tags to assign to the Lambda function."
+  type        = map(string)
+  default     = {}
+}
+
