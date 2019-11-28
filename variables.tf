@@ -1,6 +1,3 @@
-variable "role_arn" {
-  description = "ARN of IAM role to be attached to Lambda Function."
-}
 
 variable "description" {
   description = "Description of what your Lambda Function does."
