@@ -99,12 +99,7 @@ resource "aws_iam_role_policy_attachment" "vpc_attachment" {
 resource "aws_cloudwatch_log_group" "cloudwatch_logs" {
   name = "/aws/lambda/${var.function_name}"
 
-  dynamic "retention_in_days" {
-    for_each = length(var.retention_in_days) < 0 ? [] : [var.retention_in_days]
-    content {
-      retention_in_days = var.retention_in_days
-    }
-  }
+  retention_in_days = var.retention_in_days
 
   tags = var.tags
 }
