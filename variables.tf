@@ -21,7 +21,7 @@ variable "memory_size" {
 
 variable "runtime" {
   description = "runtime"
-  default     = "python2.7"
+  default     = "python3.7"
 }
 
 variable "timeout" {
