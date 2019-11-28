@@ -29,3 +29,4 @@ A module that allows you to cleanly package your python source code and dependen
 | arn | AWS arn of lambda function |
 | function\_name | Name of lambda function |
 | role\_arn | ARN of IAM role attached to Lambda Function. |
+| role\_name | Name of IAM role attached to Lambda Function. |
