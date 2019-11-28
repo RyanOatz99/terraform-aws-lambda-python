@@ -38,9 +38,14 @@ variable "output_path" {
   default     = "lambda.zip"
 }
 
-variable "variables" {
+variable "environment" {
   description = "Environment variables for the Lambda function"
   type        = map(any)
   default     = {}
 }
 
+variable "vpc_config" {
+  description = "Provide this to allow your function to access your VPC (if both 'subnet_ids' and 'security_group_ids' are empty then vpc_config is considered to be empty or unset, see https://docs.aws.amazon.com/lambda/latest/dg/vpc.html for details)."
+  type        = map(list(string))
+  default     = {}
+}

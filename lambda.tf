@@ -47,7 +47,21 @@ resource "aws_lambda_function" "lambda" {
   runtime          = var.runtime
   timeout          = var.timeout
   memory_size      = var.memory_size
-  environment {
-    variables = var.variables
+
+  dynamic "environment" {
+    for_each = length(var.environment) < 1 ? [] : [var.environment]
+    content {
+      variables = environment.value.variables
+    }
   }
+
+  dynamic "vpc_config" {
+    for_each = length(var.vpc_config) < 1 ? [] : [var.vpc_config]
+    content {
+      security_group_ids = vpc_config.value.security_group_ids
+      subnet_ids         = vpc_config.value.subnet_ids
+    }
+  }
+
+  tags = var.tags
 }
