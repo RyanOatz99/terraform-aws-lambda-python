@@ -53,3 +53,7 @@ variable "tags" {
   default     = {}
 }
 
+variable "retention_in_days" {
+  description = "Specifies the number of days you want to retain log events in the specified log group. Defaults to no-delay."
+  default     = 0
+}
