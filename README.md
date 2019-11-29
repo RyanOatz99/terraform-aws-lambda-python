@@ -4,6 +4,7 @@ A module that allows you to cleanly package your python source code and dependen
 ## Pre-requisites
 - [Install virtualenv](https://sourabhbajaj.com/mac-setup/Python/virtualenv.html)
 
+<!-- BEGINNING OF PRE-COMMIT-TERRAFORM DOCS HOOK -->
 ## Inputs
 
 | Name | Description | Type | Default | Required |
@@ -30,3 +31,5 @@ A module that allows you to cleanly package your python source code and dependen
 | function\_name | Name of lambda function |
 | role\_arn | ARN of IAM role attached to Lambda Function. |
 | role\_name | Name of IAM role attached to Lambda Function. |
+
+<!-- END OF PRE-COMMIT-TERRAFORM DOCS HOOK -->
