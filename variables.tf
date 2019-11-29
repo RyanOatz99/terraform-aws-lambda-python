@@ -1,6 +1,3 @@
-variable "role_arn" {
-  description = "ARN of IAM role to be attached to Lambda Function."
-}
 
 variable "description" {
   description = "Description of what your Lambda Function does."
@@ -21,7 +18,7 @@ variable "memory_size" {
 
 variable "runtime" {
   description = "runtime"
-  default     = "python2.7"
+  default     = "python3.7"
 }
 
 variable "timeout" {
@@ -38,9 +35,25 @@ variable "output_path" {
   default     = "lambda.zip"
 }
 
-variable "variables" {
+variable "environment" {
   description = "Environment variables for the Lambda function"
   type        = map(any)
   default     = {}
 }
 
+variable "vpc_config" {
+  description = "Provide this to allow your function to access your VPC (if both 'subnet_ids' and 'security_group_ids' are empty then vpc_config is considered to be empty or unset, see https://docs.aws.amazon.com/lambda/latest/dg/vpc.html for details)."
+  type        = map(list(string))
+  default     = {}
+}
+
+variable "tags" {
+  description = "A mapping of tags to assign to the Lambda function."
+  type        = map(string)
+  default     = {}
+}
+
+variable "retention_in_days" {
+  description = "Specifies the number of days you want to retain log events in the specified log group. Defaults to 7 days."
+  default     = 7
+}

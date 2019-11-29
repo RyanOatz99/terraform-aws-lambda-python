@@ -4,6 +4,7 @@ A module that allows you to cleanly package your python source code and dependen
 ## Pre-requisites
 - [Install virtualenv](https://sourabhbajaj.com/mac-setup/Python/virtualenv.html)
 
+<!-- BEGINNING OF PRE-COMMIT-TERRAFORM DOCS HOOK -->
 ## Inputs
 
 | Name | Description | Type | Default | Required |
@@ -16,8 +17,11 @@ A module that allows you to cleanly package your python source code and dependen
 | environment | Environment configuration for the Lambda function | map | `{}` | no |
 | memory\_size | Amount of memory in MB your Lambda Function can use at runtime. | string | `"128"` | no |
 | output\_path | Path to the function's deployment package within local filesystem. eg: /path/to/lambda.zip | string | `"lambda.zip"` | no |
-| runtime | runtime | string | `"python2.7"` | no |
+| runtime | runtime | string | `"python3.7"` | no |
+| tags | A mapping of tags to assign to the Lambda function. | map | `{}` | no |
 | timeout | The amount of time your Lambda Function has to run in seconds. Defaults to 5 minutes | string | `"300"` | no |
+| vpc\_config | Provide this to allow your function to access your VPC (if both 'subnet_ids' and 'security_group_ids' are empty then vpc_config is considered to be empty or unset, see https://docs.aws.amazon.com/lambda/latest/dg/vpc.html for details). | map | `{}` | no |
+| retention\_in\_days | Specifies the number of days you want to retain log events in the specified log group. Defaults to no-delay. | number | `300` | no |
 
 ## Outputs
 
@@ -25,3 +29,7 @@ A module that allows you to cleanly package your python source code and dependen
 |------|-------------|
 | arn | AWS arn of lambda function |
 | function\_name | Name of lambda function |
+| role\_arn | ARN of IAM role attached to Lambda Function. |
+| role\_name | Name of IAM role attached to Lambda Function. |
+
+<!-- END OF PRE-COMMIT-TERRAFORM DOCS HOOK -->

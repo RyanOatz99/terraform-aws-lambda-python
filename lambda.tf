@@ -41,13 +41,65 @@ resource "aws_lambda_function" "lambda" {
   filename         = var.output_path
   description      = var.description
   source_code_hash = data.archive_file.lambda_zip.output_base64sha256
-  role             = var.role_arn
+  role             = aws_iam_role.lambda.arn
   function_name    = var.function_name
   handler          = var.handler_name
   runtime          = var.runtime
   timeout          = var.timeout
   memory_size      = var.memory_size
-  environment {
-    variables = var.variables
+
+  dynamic "environment" {
+    for_each = length(var.environment) < 1 ? [] : [var.environment]
+    content {
+      variables = environment.value.variables
+    }
   }
+
+  dynamic "vpc_config" {
+    for_each = length(var.vpc_config) < 1 ? [] : [var.vpc_config]
+    content {
+      security_group_ids = vpc_config.value.security_group_ids
+      subnet_ids         = vpc_config.value.subnet_ids
+    }
+  }
+
+  tags = var.tags
+}
+
+data "aws_iam_policy_document" "assume_role_policy" {
+  statement {
+    actions = ["sts:AssumeRole"]
+
+    principals {
+      type        = "Service"
+      identifiers = ["lambda.amazonaws.com"]
+    }
+  }
+}
+
+resource "aws_iam_role" "lambda" {
+  name               = var.function_name
+  assume_role_policy = data.aws_iam_policy_document.assume_role_policy.json
+
+  tags = var.tags
+}
+
+resource "aws_iam_role_policy_attachment" "cloudwatch_logs" {
+  role       = aws_iam_role.lambda.name
+  policy_arn = "arn:aws:iam::aws:policy/service-role/AWSLambdaBasicExecutionRole"
+}
+
+resource "aws_iam_role_policy_attachment" "vpc_attachment" {
+  count = length(var.vpc_config) < 1 ? 0 : 1
+  role  = aws_iam_role.lambda.name
+
+  policy_arn = "arn:aws:iam::aws:policy/service-role/AWSLambdaVPCAccessExecutionRole"
+}
+
+resource "aws_cloudwatch_log_group" "cloudwatch_logs" {
+  name = "/aws/lambda/${var.function_name}"
+
+  retention_in_days = var.retention_in_days
+
+  tags = var.tags
 }

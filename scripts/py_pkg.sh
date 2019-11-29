@@ -13,19 +13,24 @@ source env-$function_name/bin/activate
 FILE=$source_code_path/requirements.txt
 if [ -f $FILE ]; then
   echo "requirement.txt file exists in source_code_path. Installing dependencies.."
-  pip install -q -r $FILE --upgrade
+  case "$runtime" in
+    python2*)
+      pip install -q -r $FILE --upgrade -t $path_cwd/$dir_name
+      ;;
+    python3*)
+      pip3 install -q -r $FILE --upgrade -t $path_cwd/$dir_name
+      ;;
+  esac
 else
   echo "requirement.txt file does not exist. Skipping installation of dependencies."
 fi
 #deactivate virtualenv
 deactivate
-#creating deployment package
-cd env-$function_name/lib/$runtime/site-packages/
-cp -r . $path_cwd/$dir_name
-cp -r $source_code_path/ $path_cwd/$dir_name
 #removing virtual env folder
 rm -rf $path_module/env-$function_name/
 #add lambda_pkg directory to .gitignore
+# BUG: if Terraform code not in the root of git repository
+# .gitignore is created in the wrong directory
 GIT_FILE=$path_cwd/.gitignore
 if [ -f $GIT_FILE ]; then
   echo '#ignore lambda_pkg dir' >> $path_cwd/.gitignore
